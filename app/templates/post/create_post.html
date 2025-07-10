@@ -1,0 +1,29 @@
+{% extends "main/base.html" %}
+
+{% block title %}Сделай пост{% endblock %}
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-md-8 col-lg-6">
+        <div class="card shadow-sm">
+            <div class="card-header bg-primary text-white">
+                <h2 class="mb-0">Создать пост</h2>
+            </div>
+            <div class="card-body">
+                <form method="post" enctype="multipart/form-data" class="needs-validation" novalidate>
+                    <div class="mb-3">
+                        <label for="id_title" class="form-label">Заголовок</label>
+                        <input type="text" name="title" id="id_title" class="form-control" required placeholder="Введите заголовок">
+                    </div>
+                    <div class="mb-3">
+                        <label for="id_content" class="form-label">Содержание</label>
+                        <textarea name="content" id="id_content" rows="5" class="form-control" required placeholder="Введите содержание"></textarea>
+                    </div>
+                    <div class="d-grid">
+                        <button type="submit" class="btn btn-primary btn-lg">Опубликовать</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,48 @@
+version: '3.8'
+
+services:
+  postgres:
+    image: postgres:13
+    container_name: postgres
+    environment:
+      - POSTGRES_DB=mydb
+      - POSTGRES_USER=nikola
+      - POSTGRES_PASSWORD=password
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U nikola -d mydb"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  flask:
+    build:
+      dockerfile: Dockerfile
+      context: .
+    container_name: flask
+    environment:
+      - FLASK_ENV=development
+      - FLASK_APP=run.py
+      - DATABASE_URL=postgresql://nikola:password@postgres:5432/mydb
+      - SECRET_KEY=your-secret-key-here
+    depends_on:
+      postgres:
+        condition: service_healthy
+    expose:
+      - 8080
+
+  nginx:
+    build:
+      dockerfile: Dockerfile
+      context: ./nginx/
+    container_name: nginx
+    ports:
+      - "8080:80"
+    depends_on:
+      - flask
+
+volumes:
+  postgres_data:
