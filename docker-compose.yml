@@ -1,4 +1,3 @@
-version: '3.8'
 
 services:
   postgres:
@@ -8,6 +7,7 @@ services:
       - POSTGRES_DB=mydb
       - POSTGRES_USER=nikola
       - POSTGRES_PASSWORD=password
+      - POSTGRES_INITDB_ARGS=--encoding=UTF-8 --lc-collate=C --lc-ctype=C
     ports:
       - "5432:5432"
     volumes:
@@ -26,8 +26,9 @@ services:
     environment:
       - FLASK_ENV=development
       - FLASK_APP=run.py
-      - DATABASE_URL=postgresql://nikola:password@postgres:5432/mydb
+      - DATABASE_URL=postgresql://nikola:password@postgres:5432/mydb?client_encoding=utf8
       - SECRET_KEY=your-secret-key-here
+      - PYTHONIOENCODING=utf-8
     depends_on:
       postgres:
         condition: service_healthy

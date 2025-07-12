@@ -21,7 +21,6 @@ def create_app(config_class=Config):
     login_manager.login_view = 'user.login'
     login_manager.login_message = 'Пожалуйста, войдите в систему, чтобы получить доступ к этой странице.' 
     with app.app_context():
-
         db.create_all()
 
 
